@@ -1,3 +1,5 @@
 export default definePageConfig({
-  navigationBarTitleText: '首页'
+  navigationBarTitleText: '吾知大空间',
+  backgroundColor: '#ffffff',
+  navigationStyle: 'custom',
 })

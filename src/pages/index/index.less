@@ -1,73 +1,235 @@
 .index {
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: 40px 20px;
+  justify-content: center;
+  // padding: 40rpx 20rpx;
   height: 100vh;
-  background-color: #f7f7f7;
+  // background-color: #f7f7f7;
+  background-image: url('../../assets/home-bg.jpeg');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-.logo-container {
+// .history-record-btn {
+//   background-color: #58C898;
+//   color: #fff;
+//   padding: 20rpx 40rpx;
+//   border-radius: 16rpx;
+//   font-size: 24rpx;
+//   font-weight: 600;
+  
+//   /* 增强浮起效果 */
+//   box-shadow: 0 10px 20px rgba(88, 200, 152, 0.4);
+//   position: fixed;
+//   top: 20rpx;
+//   right: 20rpx;
+//   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+//   transform: translateY(0);
+  
+//   /* 点击效果 */
+//   &:active {
+//     box-shadow: 0 3px 10px rgba(88, 200, 152, 0.3);
+//     top: 5px;
+//     transform: translateY(0);
+//   }
+  
+//   /* 悬停效果 */
+//   &:hover {
+//     transform: translateY(-8px);
+//     box-shadow: 0 15px 30px rgba(88, 200, 152, 0.5);
+//     filter: brightness(1.05);
+//   }
+// }
+
+// .scan-container {
+//   width: 300rpx;
+//   height: 300rpx;
+//   border-radius:150rpx;
+//   background-color: #fff;
+//   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   .scan-icon {
+//     width: 150rpx;
+//     height: 150rpx;
+//     /* 应用动画 */
+//     animation: pulse .8s ease-in-out infinite;
+//     /* 添加悬停暂停效果 */
+//     &:hover {
+//       animation-play-state: paused;
+//     }
+//   }
+//   .scan-tip {
+//     font-size: 24rpx;
+//     color: #333;
+//     margin-top: 20rpx;
+//     font-weight: 600;
+//   }
+// }
+
+/* 霓虹光效动画 */
+@keyframes neonGlow {
+  0% {
+    box-shadow: 0 0 10px 0 rgba(0, 238, 255, 0.7), 0 0 20px 0 rgba(0, 238, 255, 0.5), 0 0 30px 0 rgba(0, 238, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px 5px rgba(0, 238, 255, 0.7), 0 0 30px 10px rgba(0, 238, 255, 0.5), 0 0 40px 15px rgba(0, 238, 255, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 10px 0 rgba(0, 238, 255, 0.7), 0 0 20px 0 rgba(0, 238, 255, 0.5), 0 0 30px 0 rgba(0, 238, 255, 0.3);
+  }
+}
+
+/* 脉冲动画 */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* 悬浮动画 */
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.scan-container {
+  width: 600rpx;
+  height: 720rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 60px;
-  margin-top: 20px;
-}
-
-.logo {
-  width: 120px;
-  height: 120px;
-  margin-bottom: 20px;
-}
-
-.title {
-  font-size: 28px;
-  font-weight: bold;
-  color: #333;
-}
-
-.login-container,
-.logged-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.welcome-text {
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 50px;
-  text-align: center;
-}
-
-.login-btn,
-.phone-btn,
-.edit-info-btn {
-  width: 80% !important;
-  margin-bottom: 20px !important;
-  border-radius: 40px !important;
-}
-
-.user-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 40px;
-}
-
-.avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  margin-bottom: 15px;
-  border: 2px solid #fff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.nickname {
-  font-size: 18px;
-  color: #333;
+  justify-content: center;
+  position: relative;
+  animation: float 6s ease-in-out infinite;
+  
+  /* 主容器 */
+  .qr-box {
+    width: 500rpx;
+    height: 500rpx;
+    // background-color: rgba(61, 70, 129, 0.1); /* 增加中间部分透明度 */
+    border-radius: 30rpx;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30rpx;
+    
+    /* 霓虹边框效果 */
+    &::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border-radius: 32rpx;
+      // background: linear-gradient(45deg, #00eeff, #2980b9, #6dd5fa);
+      z-index: -1;
+      animation: neonGlow 2s ease-in-out infinite;
+    }
+    
+    /* 增加左右两侧的高亮效果 */
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 30rpx;
+      background: linear-gradient(
+        90deg,
+        rgba(0, 238, 255, 0.3) 0%,
+        rgba(0, 238, 255, 0.05) 20%,
+        rgba(0, 238, 255, 0) 30%,
+        rgba(0, 238, 255, 0) 70%,
+        rgba(0, 238, 255, 0.05) 80%,
+        rgba(0, 238, 255, 0.3) 100%
+      );
+      pointer-events: none;
+    }
+    
+    /* 内部的二维码 */
+    .qr-code {
+      width: 300rpx;
+      height: 300rpx;
+      background-color: white;
+      border-radius: 15rpx;
+      padding: 15rpx;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      /* 动态圆形装饰 */
+      &::before, &::after {
+        content: '';
+        position: absolute;
+        width: 350rpx;
+        height: 350rpx;
+        border: 1px solid rgba(0, 238, 255, 0.5);
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation: pulse 3s linear infinite;
+      }
+      
+      &::after {
+        width: 400rpx;
+        height: 400rpx;
+        border-width: 2px;
+        animation-delay: -1.5s;
+      }
+      
+      /* 二维码图像 */
+      .qr-image {
+        width: 90%;
+        height: 90%;
+        animation: pulse 0.8s ease-in-out infinite;
+      }
+    }
+  }
+  
+  /* 扫描按钮 */
+  .scan-btn {
+    margin-top: 30rpx;
+    width: 400rpx;
+    height: 80rpx;
+    border-radius: 40rpx;
+    // background: linear-gradient(90deg, #00c6ff, #0072ff);
+    color: white;
+    font-size: 30rpx;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    // animation: neonGlow 2s ease-in-out infinite;
+    // box-shadow: 0 0 15px rgba(0, 198, 255, 0.8);
+    
+    &:active {
+      opacity: 0.8;
+      transform: scale(0.98);
+    }
+  }
 }

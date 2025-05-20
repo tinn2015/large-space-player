@@ -4,6 +4,9 @@ import { observer, inject } from "mobx-react";
 import Taro from "@tarojs/taro";
 import { AtButton, AtMessage } from "taro-ui";
 
+// 引入图片资源
+import scanQrCode from "../../assets/scan3.png";
+
 import "./index.less";
 
 type PageStateProps = {
@@ -27,25 +30,7 @@ class Index extends Component<IndexProps> {
     canIUseGetUserProfile: false,
   };
 
-  componentDidMount() {
-    // 检查是否支持getUserProfile API
-    if (Taro.canIUse("getUserProfile")) {
-      this.setState({
-        canIUseGetUserProfile: true,
-      });
-    }
-
-    // 检查是否已登录
-    Taro.checkSession({
-      success: () => {
-        const userInfo = Taro.getStorageSync("userInfo");
-        if (userInfo) {
-          this.props.store.userStore.setUserInfo(userInfo);
-          this.setState({ isLoggedIn: true });
-        }
-      },
-    });
-  }
+  componentDidMount() {}
 
   // 使用getUserProfile获取用户信息（基础库 2.10.4 版本及以上）
   handleGetUserProfile = () => {
@@ -111,6 +96,26 @@ class Index extends Component<IndexProps> {
     }
   };
 
+  // 处理扫码
+  handleScan = () => {
+    Taro.scanCode({
+      success: (res) => {
+        console.log("扫码结果：", res);
+        Taro.showModal({
+          title: "扫码成功",
+          content: `扫码结果：${res.result}`,
+          showCancel: false,
+        });
+      },
+      fail: () => {
+        Taro.showToast({
+          title: "扫码失败",
+          icon: "none",
+        });
+      },
+    });
+  };
+
   render() {
     const { isLoggedIn } = this.state;
     const { userInfo } = this.props.store.userStore || {};
@@ -119,54 +124,16 @@ class Index extends Component<IndexProps> {
       <View className="index">
         <AtMessage />
 
-        <View className="logo-container">
-          <Image
-            className="logo"
-            src="https://img.icons8.com/color/96/000000/basketball-player.png"
-          />
-          <Text className="title">大空间玩家</Text>
-        </View>
-
-        {!isLoggedIn ? (
-          <View className="login-container">
-            <Text className="welcome-text">欢迎使用大空间玩家小程序</Text>
-            <AtButton
-              type="primary"
-              className="login-btn"
-              onClick={this.handleGetUserProfile}
-            >
-              微信登录
-            </AtButton>
-          </View>
-        ) : (
-          <View className="logged-container">
-            <View className="user-info">
-              <Image className="avatar" src={userInfo.avatarUrl} />
-              <Text className="nickname">{userInfo.nickName}</Text>
+        <View className="scan-container">
+          <View className="qr-box">
+            <View className="qr-code">
+              <Image className="qr-image" src={scanQrCode} />
             </View>
-
-            <AtButton
-              type="primary"
-              className="phone-btn"
-              openType="getPhoneNumber"
-              onGetPhoneNumber={this.handleGetPhoneNumber}
-            >
-              获取手机号
-            </AtButton>
-
-            <AtButton
-              type="secondary"
-              className="edit-info-btn"
-              onClick={() => {
-                Taro.navigateTo({
-                  url: "/pages/userInfo/index",
-                });
-              }}
-            >
-              编辑个人信息
-            </AtButton>
+            <View className="scan-btn" onClick={this.handleScan}>
+              扫描订单二维码
+            </View>
           </View>
-        )}
+        </View>
       </View>
     );
   }

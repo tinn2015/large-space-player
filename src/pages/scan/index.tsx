@@ -80,14 +80,11 @@ class Scan extends Component<ScanProps> {
         </View>
 
         <View className="scan-content">
-          <Image
-            className="scan-icon"
-            src="https://img.icons8.com/color/96/000000/qr-code--v1.png"
-          />
+          <Image className="scan-icon" src="assets/images/scan.png" />
 
           <Text className="scan-tip">点击下方按钮开始扫码</Text>
 
-          <AtButton
+          {/* <AtButton
             type="primary"
             className="scan-btn"
             onClick={() => {
@@ -104,7 +101,7 @@ class Scan extends Component<ScanProps> {
             <View className="empty-history">
               <Text className="empty-text">暂无扫码记录</Text>
             </View>
-          </View>
+          </View> */}
         </View>
       </View>
     );
