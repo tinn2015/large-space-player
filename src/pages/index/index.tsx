@@ -98,22 +98,25 @@ class Index extends Component<IndexProps> {
 
   // 处理扫码
   handleScan = () => {
-    Taro.scanCode({
-      success: (res) => {
-        console.log("扫码结果：", res);
-        Taro.showModal({
-          title: "扫码成功",
-          content: `扫码结果：${res.result}`,
-          showCancel: false,
-        });
-      },
-      fail: () => {
-        Taro.showToast({
-          title: "扫码失败",
-          icon: "none",
-        });
-      },
+    Taro.navigateTo({
+      url: "/pages/playerInfo/index",
     });
+    // Taro.scanCode({
+    //   success: (res) => {
+    //     console.log("扫码结果：", res);
+    //     Taro.showModal({
+    //       title: "扫码成功",
+    //       content: `扫码结果：${res.result}`,
+    //       showCancel: false,
+    //     });
+    //   },
+    //   fail: () => {
+    //     Taro.showToast({
+    //       title: "扫码失败",
+    //       icon: "none",
+    //     });
+    //   },
+    // });
   };
 
   render() {
@@ -124,7 +127,7 @@ class Index extends Component<IndexProps> {
       <View className="index">
         <AtMessage />
 
-        <View className="scan-container">
+        <View className="scan-container" onClick={this.handleScan}>
           <View className="qr-box">
             <View className="qr-code">
               <Image className="qr-image" src={scanQrCode} />
@@ -134,6 +137,7 @@ class Index extends Component<IndexProps> {
             </View>
           </View>
         </View>
+        <View className="history-record-btn">历史记录</View>
       </View>
     );
   }

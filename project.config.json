@@ -9,7 +9,9 @@
     "enhance": false,
     "compileHotReLoad": false,
     "postcss": false,
-    "minified": false
+    "minified": true,
+    "minifyWxss": true,
+    "minifyWxml": true
   },
   "compileType": "miniprogram"
 }

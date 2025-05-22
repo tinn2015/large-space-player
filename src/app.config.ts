@@ -1,5 +1,6 @@
 export default defineAppConfig({
   pages: [
+    'pages/playerInfo/index',
     'pages/index/index',
     // 'pages/userInfo/index',
     // 'pages/my/index',
@@ -7,7 +8,7 @@ export default defineAppConfig({
   ],
   window: {
     backgroundTextStyle: 'light',
-    navigationBarBackgroundColor: '#58C898',
+    navigationBarBackgroundColor: '#000000',
     navigationBarTitleText: '大空间玩家',
     navigationBarTextStyle: 'white'
   },

@@ -1,0 +1,171 @@
+/* 动画定义 */
+@keyframes neonGlow {
+  0% {
+    box-shadow: 0 0 10px 0 rgba(0, 238, 255, 0.7), 0 0 20px 0 rgba(0, 238, 255, 0.5), 0 0 30px 0 rgba(0, 238, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px 5px rgba(0, 238, 255, 0.7), 0 0 30px 10px rgba(0, 238, 255, 0.5), 0 0 40px 15px rgba(0, 238, 255, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 10px 0 rgba(0, 238, 255, 0.7), 0 0 20px 0 rgba(0, 238, 255, 0.5), 0 0 30px 0 rgba(0, 238, 255, 0.3);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* 页面主容器 */
+.player-info-page {
+  min-height: 100vh;
+  background-image: url('../../assets/home-bg.jpg');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 40rpx 20rpx;
+  box-sizing: border-box;
+}
+.player-info-page::after {
+  content: "";
+  backdrop-filter: blur(10px);
+      background-color: rgba(255, 255, 255, 0.1);
+}
+.player-info-container {
+  padding: 20rpx;
+  border-radius: 20rpx;
+  border: 1rpx solid rgba(0, 238, 255, 0.5);
+}
+.form-item-bg {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.at-input {
+  color: #fff;
+}
+.at-input input {
+  color: #fff;
+}
+.at-form::after, .at-radio::before {
+  border: none;
+}
+.at-radio .at-radio__title{
+  color: #fff;
+}
+.at-radio .at-radio__option{
+  color: #fff;
+}
+.at-radio__icon .at-icon {
+  color: #f34b16;
+}
+
+
+.nickname-button-container {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20rpx;
+}
+/* 保存按钮 */
+.save-button-container {
+  display: flex;
+  justify-content: center;
+  margin: 50rpx 0;
+}
+
+.save-button {
+  width: 400rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  background: rgba(0, 198, 255, 0.15);
+  backdrop-filter: blur(5px);
+  color: #00FFFF;
+  font-size: 30rpx;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2rpx solid rgba(0, 238, 255, 0.5);
+  box-shadow: 0 0 20rpx rgba(0, 238, 255, 0.2);
+  transition: all 0.3s ease;
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+/* 角色选择区域 */
+.roles-section {
+  margin-top: 40rpx;
+  padding: 30rpx;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 20rpx;
+  backdrop-filter: blur(10px);
+
+  .section-title {
+    font-size: 32rpx;
+    color: #fff;
+    margin-bottom: 30rpx;
+    padding-bottom: 15rpx;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+.roles-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20rpx;
+  padding: 10rpx;
+}
+
+.role-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16rpx;
+  transition: all 0.3s ease;
+  border: 2rpx solid transparent;
+
+  &.role-selected {
+    background: rgba(0, 238, 255, 0.15);
+    border-color: #00eeff;
+    box-shadow: 0 0 20rpx rgba(0, 238, 255, 0.3);
+    transform: translateY(-2rpx);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.role-avatar-container {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16rpx;
+  overflow: hidden;
+}
+
+.role-avatar {
+  width: 80%;
+  height: 80%;
+  object-fit: cover;
+}
+
+.role-name {
+  font-size: 28rpx;
+  color: #fff;
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
+}
+

@@ -1,12 +1,12 @@
 .index {
   display: flex;
-  // flex-direction: column;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   // padding: 40rpx 20rpx;
   height: 100vh;
   // background-color: #f7f7f7;
-  background-image: url('../../assets/home-bg.jpeg');
+  background-image: url('../../assets/home-bg.jpg');
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -122,8 +122,8 @@
   
   /* 主容器 */
   .qr-box {
-    width: 500rpx;
-    height: 500rpx;
+    width: 550rpx;
+    height: 550rpx;
     // background-color: rgba(61, 70, 129, 0.1); /* 增加中间部分透明度 */
     border-radius: 30rpx;
     position: relative;
@@ -170,8 +170,8 @@
     
     /* 内部的二维码 */
     .qr-code {
-      width: 300rpx;
-      height: 300rpx;
+      width: 320rpx;
+      height: 320rpx;
       background-color: white;
       border-radius: 15rpx;
       padding: 15rpx;
@@ -212,12 +212,12 @@
   
   /* 扫描按钮 */
   .scan-btn {
-    margin-top: 30rpx;
+    margin-top: 40rpx;
     width: 400rpx;
     height: 80rpx;
     border-radius: 40rpx;
     // background: linear-gradient(90deg, #00c6ff, #0072ff);
-    color: white;
+    color: #00FFFF;
     font-size: 30rpx;
     font-weight: bold;
     display: flex;
@@ -232,4 +232,35 @@
       transform: scale(0.98);
     }
   }
+}
+
+.history-record-btn {
+//   width: 400rpx;
+//   height: 80rpx;
+//   border-radius: 40rpx;
+//   margin-top: 40rpx;
+//   background: rgba(0, 198, 255, 0.15);
+//   backdrop-filter: blur(5px);
+//   color: #00FFFF;
+//   font-size: 30rpx;
+//   font-weight: bold;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   border: 2rpx solid rgba(0, 238, 255, 0.5);
+//   box-shadow: 0 0 20rpx rgba(0, 238, 255, 0.2);
+  width: 400rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  background: rgba(0, 198, 255, 0.15);
+  backdrop-filter: blur(5px);
+  color: #00FFFF;
+  font-size: 30rpx;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2rpx solid rgba(0, 238, 255, 0.5);
+  box-shadow: 0 0 20rpx rgba(0, 238, 255, 0.2);
+  transition: all 0.3s ease;
 }
