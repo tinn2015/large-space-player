@@ -216,10 +216,6 @@ class PlayerInfo extends Component<PlayerInfoProps, PlayerInfoState> {
       <View className="player-info-page">
         <AtMessage />
 
-        <View className="page-header">
-          <Text className="page-title">玩家信息</Text>
-        </View>
-
         <View className="player-info-container">
           <AtForm className="form-item-bg">
             <View className="nickname-button-container">

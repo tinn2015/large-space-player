@@ -26,11 +26,12 @@
 /* 页面主容器 */
 .player-info-page {
   min-height: 100vh;
+  position: relative;
   background-image: url('../../assets/home-bg.jpg');
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
-  padding: 40rpx 20rpx;
+  padding: 20rpx;
   box-sizing: border-box;
 }
 .player-info-page::after {
@@ -42,6 +43,9 @@
   padding: 20rpx;
   border-radius: 20rpx;
   border: 1rpx solid rgba(0, 238, 255, 0.5);
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 .form-item-bg {
   background-color: rgba(0, 0, 0, 0.1);

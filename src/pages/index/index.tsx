@@ -16,6 +16,7 @@ type PageStateProps = {
       setUserInfo: Function;
       phoneNumber: string;
       setPhoneNumber: Function;
+      setUserProfile: Function;
     };
   };
 };
@@ -30,50 +31,99 @@ class Index extends Component<IndexProps> {
     canIUseGetUserProfile: false,
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.checkLoginStatus();
+  }
 
-  // 使用getUserProfile获取用户信息（基础库 2.10.4 版本及以上）
-  handleGetUserProfile = () => {
-    if (this.state.canIUseGetUserProfile) {
-      Taro.getUserProfile({
-        desc: "用于完善用户资料",
-        success: (res) => {
-          this.handleLoginSuccess(res.userInfo);
-        },
-        fail: () => {
-          Taro.atMessage({
-            type: "error",
-            message: "获取用户信息失败",
-          });
-        },
-      });
-    } else {
-      // 兼容处理
-      Taro.getUserInfo({
-        success: (res) => {
-          this.handleLoginSuccess(res.userInfo);
-        },
-        fail: () => {
-          Taro.atMessage({
-            type: "error",
-            message: "获取用户信息失败",
-          });
-        },
+  // 检查登录状态
+  checkLoginStatus = async () => {
+    try {
+      // 检查登录态是否过期
+      const checkRes = await Taro.checkSession();
+      console.log("登录态检查结果：", checkRes);
+
+      // 获取本地存储的token
+      const token = Taro.getStorageSync("token");
+
+      if (!token) {
+        // 如果没有token，执行登录流程
+        await this.handleLogin();
+      } else {
+        // 如果有token，直接获取用户信息
+        await this.getUserInfo();
+      }
+    } catch (error) {
+      console.log("登录态已过期，需要重新登录", error);
+      await this.handleLogin();
+    }
+  };
+
+  // 处理登录逻辑
+  handleLogin = async () => {
+    try {
+      // 获取登录code
+      const loginRes = await Taro.login();
+      if (loginRes.code) {
+        // TODO: 调用后端登录接口，使用code换取token
+        // const res = await api.login({ code: loginRes.code });
+        // Taro.setStorageSync('token', res.data.token);
+
+        // 登录成功后获取用户信息
+        await this.getUserInfo();
+      } else {
+        console.log("登录失败！" + loginRes.errMsg);
+        Taro.showToast({
+          title: "登录失败",
+          icon: "none",
+        });
+      }
+    } catch (error) {
+      console.log("登录失败", error);
+      Taro.showToast({
+        title: "登录失败",
+        icon: "none",
       });
     }
   };
 
-  // 处理登录成功
-  handleLoginSuccess = (userInfo) => {
-    this.props.store.userStore.setUserInfo(userInfo);
-    Taro.setStorageSync("userInfo", userInfo);
-    this.setState({ isLoggedIn: true });
+  // 获取用户信息
+  getUserInfo = async () => {
+    try {
+      // 获取用户信息
+      const userInfo = await Taro.getUserInfo({
+        lang: "zh_CN",
+      });
 
-    // 获取手机号按钮显示
-    Taro.atMessage({
-      type: "success",
-      message: "登录成功",
-    });
+      // 存储到全局状态
+      this.props.store.userStore.setUserInfo(userInfo.userInfo);
+
+      // 获取用户详细信息
+      await this.getUserProfile();
+    } catch (error) {
+      console.log("获取用户信息失败", error);
+      Taro.showToast({
+        title: "获取用户信息失败",
+        icon: "none",
+      });
+    }
+  };
+
+  // 获取用户详细信息
+  getUserProfile = async () => {
+    try {
+      const profileRes = await Taro.getUserProfile({
+        desc: "用于完善用户资料",
+      });
+
+      // 存储到全局状态
+      this.props.store.userStore.setUserProfile(profileRes.userInfo);
+    } catch (error) {
+      console.log("获取用户详细信息失败", error);
+      Taro.showToast({
+        title: "获取用户详细信息失败",
+        icon: "none",
+      });
+    }
   };
 
   // 获取手机号码
