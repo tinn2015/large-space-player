@@ -1,7 +1,7 @@
 {
   "miniprogramRoot": "./",
-  "projectname": "myapp",
-  "appid": "testAppId",
+  "projectname": "玩家信息录入",
+  "appid": "wxacc99068ea03b362",
   "setting": {
     "es6": false,
     "minified": false
