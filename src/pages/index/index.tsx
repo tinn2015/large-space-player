@@ -3,7 +3,7 @@ import { View, Button, Text, Image } from "@tarojs/components";
 import { observer, inject } from "mobx-react";
 import Taro from "@tarojs/taro";
 import { AtButton, AtMessage } from "taro-ui";
-
+import { login, getUserInfo } from "../../utils/request";
 // 引入图片资源
 import scanQrCode from "../../assets/scan3.png";
 
@@ -44,6 +44,7 @@ class Index extends Component<IndexProps> {
 
       // 获取本地存储的token
       const token = Taro.getStorageSync("token");
+      console.log("token", token);
 
       if (!token) {
         // 如果没有token，执行登录流程
@@ -65,8 +66,9 @@ class Index extends Component<IndexProps> {
       const loginRes = await Taro.login();
       if (loginRes.code) {
         // TODO: 调用后端登录接口，使用code换取token
-        // const res = await api.login({ code: loginRes.code });
-        // Taro.setStorageSync('token', res.data.token);
+        const res = await login(loginRes.code);
+        console.log("登录结果res", res);
+        Taro.setStorageSync("token", res.data.token);
 
         // 登录成功后获取用户信息
         await this.getUserInfo();

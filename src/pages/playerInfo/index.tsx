@@ -55,10 +55,10 @@ type PageStateProps = {
 };
 
 interface PlayerInfoState {
-  nickname: string;
-  gender: string;
-  height: string;
-  role: string;
+  nickName: string;
+  sexCode: number;
+  height: number | string;
+  age: number;
 }
 
 interface PlayerInfoProps extends PageStateProps {}
@@ -67,10 +67,10 @@ interface PlayerInfoProps extends PageStateProps {}
 @observer
 class PlayerInfo extends Component<PlayerInfoProps, PlayerInfoState> {
   state: PlayerInfoState = {
-    nickname: "",
-    gender: "male",
-    height: "180",
-    role: "",
+    nickName: "",
+    sexCode: 1,
+    height: "",
+    age: 1,
   };
 
   componentDidMount() {
@@ -78,62 +78,40 @@ class PlayerInfo extends Component<PlayerInfoProps, PlayerInfoState> {
     const { userProfile } = this.props.store.userStore;
     if (userProfile) {
       this.setState({
-        nickname: userProfile.nickname || "",
-        gender: userProfile.gender || "male",
-        height: userProfile.height?.toString() || "180",
-        role: userProfile.role || "",
+        nickName: userProfile.nickName || "",
+        sexCode: userProfile.sexCode || 1,
+        height: userProfile.height || "",
+        age: userProfile.age || 1,
       });
     }
   }
-  onGetUserInfoEventDetail = (e) => {
-    console.log("微信用户信息", e);
-  };
 
   handleNicknameChange = (value: string): void => {
     this.setState({
-      nickname: value,
+      nickName: value,
     });
   };
 
-  handleGenderChange = (value) => {
-    this.setState({ gender: value });
+  handleSexCodeChange = (value: number) => {
+    this.setState({ sexCode: value });
   };
 
   handleHeightChange = (value: string): void => {
     this.setState({
-      height: value,
+      height: Number(value),
     });
   };
 
-  handleRoleChange = (role: string) => {
-    this.setState({ role });
-  };
-
-  getWechatUserInfo = () => {
-    Taro.getUserProfile({
-      desc: "用于完善用户资料",
-      success: (res) => {
-        console.log("微信用户信息", res);
-        this.setState({
-          nickname: res.userInfo.nickName,
-        });
-      },
-      fail: (err) => {
-        console.log("微信用户信息失败", err);
-      },
-    });
+  handleAgeChange = (value: number) => {
+    this.setState({ age: value });
   };
 
   // 生成昵称
   handleAutoGenerateNickname = () => {
     const nickname = generateNickname();
-
-    // 更新状态
     this.setState({
-      nickname,
+      nickName: nickname,
     });
-
-    // 显示提示
     Taro.atMessage({
       type: "success",
       message: "昵称生成成功！",
@@ -141,76 +119,26 @@ class PlayerInfo extends Component<PlayerInfoProps, PlayerInfoState> {
   };
 
   handleUploadInfo = () => {
-    const { nickname, gender, height, role } = this.state;
+    const { nickName, sexCode, height, age } = this.state;
 
-    // 验证数据
-    // if (!nickname) {
-    //   Taro.atMessage({
-    //     type: "error",
-    //     message: "请输入昵称",
-    //   });
-    //   return;
-    // }
+    if (!nickName) {
+      Taro.atMessage({
+        type: "error",
+        message: "请输入昵称",
+      });
+      return;
+    }
 
-    // if (!role) {
-    //   Taro.atMessage({
-    //     type: "error",
-    //     message: "请选择角色",
-    //   });
-    //   return;
-    // }
-
-    console.log(nickname, gender, height, role);
+    console.log("保存的信息：", { nickName, sexCode, height, age });
 
     Taro.atMessage({
       type: "success",
       message: "信息保存成功",
     });
-
-    // 返回首页
-    // setTimeout(() => {
-    //   Taro.navigateBack();
-    // }, 1500);
-  };
-  handleResetInfo = () => {
-    this.setState({
-      nickname: "",
-      gender: "male",
-      height: "180",
-      role: "",
-    });
-  };
-
-  renderRoles = () => {
-    return (
-      <View className="roles-section">
-        <View className="section-title">选择角色</View>
-        <View className="roles-container">
-          {ROLES.map((role) => (
-            <View
-              key={role.value}
-              className={`role-item ${
-                this.state.role === role.value ? "role-selected" : ""
-              }`}
-              onClick={() => this.handleRoleChange(role.value)}
-            >
-              <View className="role-avatar-container">
-                <Image
-                  className="role-avatar"
-                  src={role.avatar}
-                  mode="aspectFit"
-                />
-              </View>
-              <Text className="role-name">{role.label}</Text>
-            </View>
-          ))}
-        </View>
-      </View>
-    );
   };
 
   render() {
-    const { nickname, gender, height, role } = this.state;
+    const { nickName, sexCode, height, age } = this.state;
 
     return (
       <View className="player-info-page">
@@ -222,14 +150,6 @@ class PlayerInfo extends Component<PlayerInfoProps, PlayerInfoState> {
               <AtButton
                 type="primary"
                 size="small"
-                // openType="getUserInfo"
-                onClick={this.getWechatUserInfo}
-              >
-                获取微信昵称
-              </AtButton>
-              <AtButton
-                type="primary"
-                size="small"
                 onClick={this.handleAutoGenerateNickname}
               >
                 自动生成昵称
@@ -237,35 +157,52 @@ class PlayerInfo extends Component<PlayerInfoProps, PlayerInfoState> {
             </View>
             <AtInput
               className="form-item-bg"
-              name="nickname"
+              name="nickName"
               title="昵称"
               type="text"
               placeholder="请输入或者生成昵称"
-              value={nickname}
+              value={nickName}
               onChange={this.handleNicknameChange}
             />
-            <AtInput
-              className="form-item-bg"
-              name="height"
-              title="身高"
-              type="number"
-              placeholder="请输入身高(cm)"
-              value={this.state.height}
-              onChange={this.handleHeightChange}
-            />
-            <AtRadio
-              className="form-item-bg"
-              options={[
-                { label: "男", value: "male" },
-                { label: "女", value: "female" },
-              ]}
-              value={this.state.gender}
-              onClick={this.handleGenderChange}
-            />
+            <View className="form-item-bg">
+              <AtInput
+                className="form-item-bg"
+                name="height"
+                title="身高"
+                type="number"
+                placeholder="请输入身高(cm)"
+                value={height.toString()}
+                onChange={this.handleHeightChange}
+              />
+              <Text className="input-suffix">cm</Text>
+            </View>
+            <View className="form-item-bg">
+              <Text className="form-label">性别</Text>
+              <AtRadio
+                className="form-item-bg"
+                options={[
+                  { label: "男", value: 1 },
+                  { label: "女", value: 2 },
+                  { label: "未知", value: 3 },
+                ]}
+                value={sexCode}
+                onClick={this.handleSexCodeChange}
+              />
+            </View>
+            <View className="form-item-bg">
+              <Text className="form-label">年龄段</Text>
+              <AtRadio
+                className="form-item-bg"
+                options={[
+                  { label: "成人", value: 1 },
+                  { label: "儿童", value: 2 },
+                ]}
+                value={age}
+                onClick={this.handleAgeChange}
+              />
+            </View>
           </AtForm>
-          {this.renderRoles()}
         </View>
-        {/* 保存按钮 */}
         <View className="save-button-container">
           <View className="save-button" onClick={this.handleUploadInfo}>
             保存信息
