@@ -6,6 +6,7 @@ import { AtButton, AtMessage } from "taro-ui";
 import { login, getUserInfo } from "../../utils/request";
 // 引入图片资源
 import scanQrCode from "../../assets/scan3.png";
+import logoIcon from "../../assets/logo.png";
 
 import "./index.less";
 
@@ -178,18 +179,17 @@ class Index extends Component<IndexProps> {
     return (
       <View className="index">
         <AtMessage />
-
-        <View className="scan-container" onClick={this.handleScan}>
-          <View className="qr-box">
-            <View className="qr-code">
-              <Image className="qr-image" src={scanQrCode} />
-            </View>
-            <View className="scan-btn" onClick={this.handleScan}>
-              扫描订单二维码
-            </View>
-          </View>
+        <View className="header-container">
+          <Image className="header-logo" src={logoIcon} />
+          <View className="header-title">吾知大空间</View>
         </View>
-        <View className="history-record-btn">历史记录</View>
+        <View className="content-container">
+          <View className="content-scan-box" onClick={this.handleScan}>
+            <Image className="content-scan-icon" src={scanQrCode} />
+            <View className="content-scan-btn btn">扫描订单二维码</View>
+          </View>
+          <View className="content-history-btn btn">历史记录</View>
+        </View>
       </View>
     );
   }

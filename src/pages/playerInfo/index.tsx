@@ -57,7 +57,7 @@ type PageStateProps = {
 interface PlayerInfoState {
   nickName: string;
   sexCode: number;
-  height: number | string;
+  height: number;
   age: number;
 }
 
@@ -69,7 +69,7 @@ class PlayerInfo extends Component<PlayerInfoProps, PlayerInfoState> {
   state: PlayerInfoState = {
     nickName: "",
     sexCode: 1,
-    height: "",
+    height: 0,
     age: 1,
   };
 
@@ -96,7 +96,7 @@ class PlayerInfo extends Component<PlayerInfoProps, PlayerInfoState> {
     this.setState({ sexCode: value });
   };
 
-  handleHeightChange = (value: string): void => {
+  handleHeightChange = (value: number): void => {
     this.setState({
       height: Number(value),
     });
@@ -112,10 +112,6 @@ class PlayerInfo extends Component<PlayerInfoProps, PlayerInfoState> {
     this.setState({
       nickName: nickname,
     });
-    Taro.atMessage({
-      type: "success",
-      message: "昵称生成成功！",
-    });
   };
 
   handleUploadInfo = () => {
@@ -125,6 +121,13 @@ class PlayerInfo extends Component<PlayerInfoProps, PlayerInfoState> {
       Taro.atMessage({
         type: "error",
         message: "请输入昵称",
+      });
+      return;
+    }
+    if (!height) {
+      Taro.atMessage({
+        type: "error",
+        message: "请输入身高",
       });
       return;
     }
@@ -144,65 +147,71 @@ class PlayerInfo extends Component<PlayerInfoProps, PlayerInfoState> {
       <View className="player-info-page">
         <AtMessage />
 
+        <View className="header-container">
+          <View className="header-title">玩家信息</View>
+          <View className="header-subtitle">完善信息开启游戏之旅</View>
+        </View>
+
         <View className="player-info-container">
-          <AtForm className="form-item-bg">
-            <View className="nickname-button-container">
-              <AtButton
-                type="primary"
-                size="small"
-                onClick={this.handleAutoGenerateNickname}
-              >
-                自动生成昵称
-              </AtButton>
-            </View>
+          <AtForm>
             <AtInput
-              className="form-item-bg"
               name="nickName"
               title="昵称"
               type="text"
-              placeholder="请输入或者生成昵称"
+              placeholder="请输入昵称"
               value={nickName}
-              onChange={this.handleNicknameChange}
+              onChange={this.handleNicknameChange.bind(this, "value")}
+            >
+              <AtButton size="small" onClick={this.handleAutoGenerateNickname}>
+                生成昵称
+              </AtButton>
+            </AtInput>
+            <AtInput
+              name="height"
+              title="身高"
+              type="number"
+              placeholder="请输入身高"
+              value={height.toString()}
+              onChange={(e) => {
+                this.handleHeightChange(Number(e));
+              }}
+            >
+              <View>厘米</View>
+            </AtInput>
+            <View className="radio-title">
+              <View className="radio-title-icon"></View>
+              <View className="radio-title-text">选择性别</View>
+            </View>
+            <AtRadio
+              options={[
+                { label: "男", value: 1 },
+                { label: "女", value: 2 },
+                { label: "未知", value: 3 },
+              ]}
+              value={sexCode}
+              onClick={(value) => {
+                console.log("选择性别change", value);
+                this.handleSexCodeChange(value);
+              }}
             />
-            <View className="form-item-bg">
-              <AtInput
-                className="form-item-bg"
-                name="height"
-                title="身高"
-                type="number"
-                placeholder="请输入身高(cm)"
-                value={height.toString()}
-                onChange={this.handleHeightChange}
-              />
-              <Text className="input-suffix">cm</Text>
+            <View className="radio-title">
+              <View className="radio-title-icon"></View>
+              <View className="radio-title-text">年龄段</View>
             </View>
-            <View className="form-item-bg">
-              <Text className="form-label">性别</Text>
-              <AtRadio
-                className="form-item-bg"
-                options={[
-                  { label: "男", value: 1 },
-                  { label: "女", value: 2 },
-                  { label: "未知", value: 3 },
-                ]}
-                value={sexCode}
-                onClick={this.handleSexCodeChange}
-              />
-            </View>
-            <View className="form-item-bg">
-              <Text className="form-label">年龄段</Text>
-              <AtRadio
-                className="form-item-bg"
-                options={[
-                  { label: "成人", value: 1 },
-                  { label: "儿童", value: 2 },
-                ]}
-                value={age}
-                onClick={this.handleAgeChange}
-              />
-            </View>
+            <AtRadio
+              options={[
+                { label: "儿童", value: 1 },
+                { label: "成人", value: 2 },
+              ]}
+              value={age}
+              onClick={(value) => {
+                console.log("选择年龄change", value);
+                this.handleAgeChange(value);
+              }}
+            />
           </AtForm>
         </View>
+
         <View className="save-button-container">
           <View className="save-button" onClick={this.handleUploadInfo}>
             保存信息

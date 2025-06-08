@@ -1,16 +1,16 @@
 export default defineAppConfig({
   pages: [
-    'pages/index/index',
-    'pages/playerInfo/index',
+    "pages/playerInfo/index",
+    "pages/index/index",
     // 'pages/userInfo/index',
     // 'pages/my/index',
     // 'pages/scan/index'
   ],
   window: {
-    backgroundTextStyle: 'light',
-    navigationBarBackgroundColor: '#000000',
-    navigationBarTitleText: '大空间玩家',
-    navigationBarTextStyle: 'white'
+    backgroundTextStyle: "light",
+    navigationBarBackgroundColor: "#000000",
+    navigationBarTitleText: "大空间玩家",
+    navigationBarTextStyle: "white",
   },
   // tabBar: {
   //   color: '#999',
@@ -32,4 +32,4 @@ export default defineAppConfig({
   //     }
   //   ]
   // }
-})
+});
