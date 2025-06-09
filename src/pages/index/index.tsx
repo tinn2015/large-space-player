@@ -6,7 +6,7 @@ import { AtButton, AtMessage } from "taro-ui";
 import { login, getUserInfo } from "../../utils/request";
 // 引入图片资源
 import scanQrCode from "../../assets/scan3.png";
-import logoIcon from "../../assets/logo.png";
+import logoIcon from "../../assets/logo2.png";
 
 import "./index.less";
 
