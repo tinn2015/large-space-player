@@ -151,25 +151,25 @@ class Index extends Component<IndexProps> {
 
   // 处理扫码
   handleScan = () => {
-    Taro.navigateTo({
-      url: "/pages/playerInfo/index",
+    Taro.scanCode({
+      success: (res) => {
+        console.log("扫码结果：", res);
+        // Taro.showModal({
+        //   title: "扫码成功",
+        //   content: `扫码结果：${res.result}`,
+        //   showCancel: false,
+        // });
+        Taro.navigateTo({
+          url: "/pages/playerInfo/index?userId=" + res.result,
+        });
+      },
+      fail: () => {
+        Taro.showToast({
+          title: "扫码失败",
+          icon: "none",
+        });
+      },
     });
-    // Taro.scanCode({
-    //   success: (res) => {
-    //     console.log("扫码结果：", res);
-    //     Taro.showModal({
-    //       title: "扫码成功",
-    //       content: `扫码结果：${res.result}`,
-    //       showCancel: false,
-    //     });
-    //   },
-    //   fail: () => {
-    //     Taro.showToast({
-    //       title: "扫码失败",
-    //       icon: "none",
-    //     });
-    //   },
-    // });
   };
 
   render() {

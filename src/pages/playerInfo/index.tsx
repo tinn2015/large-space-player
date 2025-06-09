@@ -1,48 +1,12 @@
 import { Component } from "react";
-import { View, Text, Image, Picker } from "@tarojs/components";
+import { View } from "@tarojs/components";
 import { observer, inject } from "mobx-react";
 import Taro from "@tarojs/taro";
-import {
-  AtInput,
-  AtButton,
-  AtRadio,
-  AtMessage,
-  AtForm,
-  AtList,
-  AtListItem,
-} from "taro-ui";
+import { AtInput, AtButton, AtRadio, AtMessage, AtForm } from "taro-ui";
 import generateNickname from "../../utils";
+import { savePlayerInfo } from "../../utils/request";
 
 import "./index.less";
-
-// 角色数据
-const ROLES = [
-  {
-    value: "point_guard",
-    label: "控球后卫",
-    avatar: "https://img.icons8.com/color/96/000000/basketball-player.png",
-  },
-  {
-    value: "shooting_guard",
-    label: "得分后卫",
-    avatar: "https://img.icons8.com/color/96/000000/basketball-player.png",
-  },
-  {
-    value: "small_forward",
-    label: "小前锋",
-    avatar: "https://img.icons8.com/color/96/000000/basketball-player.png",
-  },
-  {
-    value: "power_forward",
-    label: "大前锋",
-    avatar: "https://img.icons8.com/color/96/000000/basketball-player.png",
-  },
-  {
-    value: "center",
-    label: "中锋",
-    avatar: "https://img.icons8.com/color/96/000000/basketball-player.png",
-  },
-];
 
 type PageStateProps = {
   store: {
@@ -114,7 +78,7 @@ class PlayerInfo extends Component<PlayerInfoProps, PlayerInfoState> {
     });
   };
 
-  handleUploadInfo = () => {
+  handleUploadInfo = async () => {
     const { nickName, sexCode, height, age } = this.state;
 
     if (!nickName) {
@@ -132,7 +96,28 @@ class PlayerInfo extends Component<PlayerInfoProps, PlayerInfoState> {
       return;
     }
 
-    console.log("保存的信息：", { nickName, sexCode, height, age });
+    // 获取路由参数
+    const router = Taro.getCurrentInstance();
+    const params = router?.router?.params;
+    const userId = params?.userId || "";
+    console.log("router params:", params);
+    console.log("userId:", userId);
+
+    const res = await savePlayerInfo({
+      nickName,
+      sexCode,
+      height,
+      age,
+      userId,
+    });
+    console.log("保存的信息：", {
+      nickName,
+      sexCode,
+      height,
+      age,
+      userId,
+    });
+    console.log("保存的信息结果：", res);
 
     Taro.atMessage({
       type: "success",

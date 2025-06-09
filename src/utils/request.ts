@@ -7,7 +7,7 @@ interface RequestOptions {
     header?: any
 }
 
-const BASE_URL = 'https://1qkvn8653670.vicp.fun/admin'
+const BASE_URL = 'https://1qkvn8653670.vicp.fun'
 
 export const request = async (options: RequestOptions) => {
     const { url, method = 'GET', data, header = {} } = options
@@ -43,7 +43,7 @@ export const request = async (options: RequestOptions) => {
 // 登录接口
 export const login = async (code: string) => {
     return request({
-        url: '/token/getToken',
+        url: '/admin/token/getToken',
         method: 'POST',
         data: {
             jsCode: code,
@@ -57,7 +57,16 @@ export const login = async (code: string) => {
 // 获取用户信息接口
 export const getUserInfo = async () => {
     return request({
-        url: '/api/user/info',
+        url: '/admin/api/user/info',
         method: 'GET'
+    })
+}
+
+// 保存用户信息接口
+export const savePlayerInfo = async (data: any) => {
+    return request({
+        url: '/control/game/user/info/save',
+        method: 'POST',
+        data
     })
 }
