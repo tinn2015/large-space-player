@@ -2,6 +2,7 @@ export default defineAppConfig({
   pages: [
     "pages/index/index",
     "pages/playerInfo/index",
+    "pages/playerPhotos/index",
     // 'pages/userInfo/index',
     // 'pages/my/index',
     // 'pages/scan/index'

@@ -152,16 +152,34 @@ class Index extends Component<IndexProps> {
   // 处理扫码
   handleScan = () => {
     Taro.scanCode({
-      success: (res) => {
+      success: async (res) => {
         console.log("扫码结果：", res);
-        // Taro.showModal({
-        //   title: "扫码成功",
-        //   content: `扫码结果：${res.result}`,
-        //   showCancel: false,
-        // });
-        Taro.navigateTo({
-          url: "/pages/playerInfo/index?userId=" + res.result,
-        });
+        try {
+          // 调用接口获取用户信息
+          const userInfoRes = await getUserInfo(res.result);
+          console.log("获取用户信息结果：", userInfoRes);
+
+          if (userInfoRes.success) {
+            // 保存到store
+            this.props.store.userStore.setUserInfo(userInfoRes.data);
+
+            // 跳转到玩家图片页
+            Taro.navigateTo({
+              url: `/pages/playerPhotos/index?userId=${res.result}`,
+            });
+          } else {
+            Taro.showToast({
+              title: "获取用户信息失败",
+              icon: "none",
+            });
+          }
+        } catch (error) {
+          console.error("获取用户信息失败：", error);
+          Taro.showToast({
+            title: "获取用户信息失败",
+            icon: "none",
+          });
+        }
       },
       fail: () => {
         Taro.showToast({

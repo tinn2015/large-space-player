@@ -1,0 +1,113 @@
+.player-photos-page {
+  min-height: 100vh;
+  background-color: #f5f7fa;
+}
+
+.header-container {
+  width: 100%;
+  height: 25vh;
+  background: linear-gradient(180deg, #b88ae9 0%, #9254de 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 0 15rpx 15rpx;
+  padding: 40rpx 0;
+  color: #fff;
+
+  .header-title {
+    font-size: 36rpx;
+    font-weight: bold;
+    margin-bottom: 20rpx;
+  }
+
+  .header-subtitle {
+    font-size: 28rpx;
+    opacity: 0.9;
+  }
+}
+
+.content-container {
+  margin: -40rpx 30rpx 0;
+  padding: 30rpx;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 20rpx;
+  box-shadow: 0 8rpx 30rpx rgba(184, 138, 233, 0.1);
+  border: 2rpx solid rgba(184, 138, 233, 0.1);
+  backdrop-filter: blur(10rpx);
+  min-height: calc(75vh - 40rpx);
+}
+
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200rpx;
+
+  .loading-text {
+    color: #666;
+    font-size: 28rpx;
+  }
+}
+
+.photos-scroll {
+  height: calc(75vh - 120rpx);
+}
+
+.photos-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 30rpx;
+}
+
+.photo-item {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 15rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+  position: relative;
+
+  .photo-image {
+    width: 100%;
+    height: 400rpx;
+    display: block;
+  }
+
+  .photo-info {
+    padding: 20rpx;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .photo-description {
+      color: #333;
+      font-size: 28rpx;
+      font-weight: 500;
+      flex: 1;
+    }
+
+    .photo-time {
+      color: #999;
+      font-size: 24rpx;
+    }
+  }
+
+  .download-btn {
+    position: absolute;
+    top: 20rpx;
+    right: 20rpx;
+    background: linear-gradient(90deg, #b88ae9 0%, #9254de 100%);
+    color: #fff;
+    padding: 10rpx 20rpx;
+    border-radius: 20rpx;
+    font-size: 24rpx;
+    font-weight: 500;
+    box-shadow: 0 4rpx 8rpx rgba(146, 84, 222, 0.3);
+    transition: all 0.3s ease;
+
+    &:active {
+      transform: scale(0.95);
+      box-shadow: 0 2rpx 4rpx rgba(146, 84, 222, 0.2);
+    }
+  }
+}
