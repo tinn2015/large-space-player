@@ -7,7 +7,7 @@ interface RequestOptions {
   header?: any;
 }
 
-const BASE_URL = "https://1qkvn8653670.vicp.fun";
+const BASE_URL = "https://hub.innomix.cn";
 
 export const request = async (options: RequestOptions) => {
   const { url, method = "GET", data, header = {} } = options;
@@ -16,7 +16,8 @@ export const request = async (options: RequestOptions) => {
     const token = Taro.getStorageSync("token");
     const defaultHeader = {
       "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      Authorization: token ? `Bearer ${token}` : "",
+      // ...(token ? { Authorization: `Bearer ${token}` } : {}),
     };
 
     const response = await Taro.request({
@@ -55,10 +56,10 @@ export const login = async (code: string) => {
   });
 };
 
-// 获取用户信息接口
-export const getUserInfo = async (userId?: string) => {
+// 获取玩家信息接口
+export const getPlayerInfo = async (userId?: string) => {
   return request({
-    url: userId ? `/game/user/info?userId=${userId}` : "/admin/api/user/info",
+    url: userId ? `/control/game/user/info?qrCode=${userId}` : "/admin/api/user/info",
     method: "GET",
   });
 };
@@ -73,9 +74,9 @@ export const savePlayerInfo = async (data: any) => {
 };
 
 // 获取玩家图片接口
-export const getPlayerPhotos = async (userId: string) => {
-  return request({
-    url: `/game/user/photos?userId=${userId}`,
-    method: "GET",
-  });
-};
+// export const getPlayerPhotos = async (userId: string) => {
+//   return request({
+//     url: `/game/user/photos?userId=${userId}`,
+//     method: "GET",
+//   });
+// };

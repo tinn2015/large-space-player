@@ -3,7 +3,7 @@ import { View, Button, Text, Image } from "@tarojs/components";
 import { observer, inject } from "mobx-react";
 import Taro from "@tarojs/taro";
 import { AtButton, AtMessage } from "taro-ui";
-import { login, getUserInfo } from "../../utils/request";
+import { login, getPlayerInfo } from "../../utils/request";
 // 引入图片资源
 import scanQrCode from "../../assets/scan3.png";
 import logoIcon from "../../assets/logo2.png";
@@ -156,23 +156,11 @@ class Index extends Component<IndexProps> {
         console.log("扫码结果：", res);
         try {
           // 调用接口获取用户信息
-          const userInfoRes = await getUserInfo(res.result);
-          console.log("获取用户信息结果：", userInfoRes);
-
-          if (userInfoRes.success) {
-            // 保存到store
-            this.props.store.userStore.setUserInfo(userInfoRes.data);
-
-            // 跳转到玩家图片页
-            Taro.navigateTo({
-              url: `/pages/playerPhotos/index?userId=${res.result}`,
-            });
-          } else {
-            Taro.showToast({
-              title: "获取用户信息失败",
-              icon: "none",
-            });
-          }
+          // const userInfoRes = await getUserInfo(res.result);
+          // console.log("获取用户信息结果：", userInfoRes);
+          Taro.navigateTo({
+            url: `/pages/playerPhotos/index?userId=${res}`,
+          });
         } catch (error) {
           console.error("获取用户信息失败：", error);
           Taro.showToast({
@@ -206,7 +194,7 @@ class Index extends Component<IndexProps> {
             <Image className="content-scan-icon" src={scanQrCode} />
             <View className="content-scan-btn btn">扫描订单二维码</View>
           </View>
-          <View className="content-history-btn btn">历史记录</View>
+          {/* <View className="content-history-btn btn">历史记录</View> */}
         </View>
       </View>
     );

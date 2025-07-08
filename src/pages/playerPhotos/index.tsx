@@ -3,7 +3,7 @@ import { View, Text, Image, ScrollView } from "@tarojs/components";
 import { observer, inject } from "mobx-react";
 import Taro from "@tarojs/taro";
 import { AtMessage } from "taro-ui";
-import { getPlayerPhotos } from "../../utils/request";
+import { getPlayerInfo } from "../../utils/request";
 
 import "./index.less";
 
@@ -54,7 +54,7 @@ class PlayerPhotos extends Component<PlayerPhotosProps, PlayerPhotosState> {
         return;
       }
 
-      const res = await getPlayerPhotos(userId);
+      const res = await getPlayerInfo(userId);
 
       this.setState({
         photos: res.data,
