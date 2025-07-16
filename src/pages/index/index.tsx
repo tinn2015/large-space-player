@@ -69,10 +69,7 @@ class Index extends Component<IndexProps> {
         // TODO: 调用后端登录接口，使用code换取token
         const res = await login(loginRes.code);
         console.log("登录结果res", res);
-        Taro.setStorageSync("token", res.data.token);
-
-        // 登录成功后获取用户信息
-        await this.getUserInfo();
+        Taro.setStorageSync("token", res.data.accessToken);
       } else {
         console.log("登录失败！" + loginRes.errMsg);
         Taro.showToast({
@@ -90,44 +87,44 @@ class Index extends Component<IndexProps> {
   };
 
   // 获取用户信息
-  getUserInfo = async () => {
-    try {
-      // 获取用户信息
-      const userInfo = await Taro.getUserInfo({
-        lang: "zh_CN",
-      });
+  // getUserInfo = async () => {
+  //   try {
+  //     // 获取用户信息
+  //     const userInfo = await Taro.getUserInfo({
+  //       lang: "zh_CN",
+  //     });
 
-      // 存储到全局状态
-      this.props.store.userStore.setUserInfo(userInfo.userInfo);
+  //     // 存储到全局状态
+  //     this.props.store.userStore.setUserInfo(userInfo.userInfo);
 
-      // 获取用户详细信息
-      await this.getUserProfile();
-    } catch (error) {
-      console.log("获取用户信息失败", error);
-      Taro.showToast({
-        title: "获取用户信息失败",
-        icon: "none",
-      });
-    }
-  };
+  //     // 获取用户详细信息
+  //     // await this.getUserProfile();
+  //   } catch (error) {
+  //     console.log("获取用户信息失败", error);
+  //     Taro.showToast({
+  //       title: "获取用户信息失败",
+  //       icon: "none",
+  //     });
+  //   }
+  // };
 
   // 获取用户详细信息
-  getUserProfile = async () => {
-    try {
-      const profileRes = await Taro.getUserProfile({
-        desc: "用于完善用户资料",
-      });
+  // getUserProfile = async () => {
+  //   try {
+  //     const profileRes = await Taro.getUserProfile({
+  //       desc: "用于完善用户资料",
+  //     });
 
-      // 存储到全局状态
-      this.props.store.userStore.setUserProfile(profileRes.userInfo);
-    } catch (error) {
-      console.log("获取用户详细信息失败", error);
-      Taro.showToast({
-        title: "获取用户详细信息失败",
-        icon: "none",
-      });
-    }
-  };
+  //     // 存储到全局状态
+  //     this.props.store.userStore.setUserProfile(profileRes.userInfo);
+  //   } catch (error) {
+  //     console.log("获取用户详细信息失败", error);
+  //     Taro.showToast({
+  //       title: "获取用户详细信息失败",
+  //       icon: "none",
+  //     });
+  //   }
+  // };
 
   // 获取手机号码
   handleGetPhoneNumber = (e) => {
@@ -159,7 +156,7 @@ class Index extends Component<IndexProps> {
           // const userInfoRes = await getUserInfo(res.result);
           // console.log("获取用户信息结果：", userInfoRes);
           Taro.navigateTo({
-            url: `/pages/playerPhotos/index?userId=${res}`,
+            url: `/pages/playerPhotos/index?userId=${res.result}`,
           });
         } catch (error) {
           console.error("获取用户信息失败：", error);

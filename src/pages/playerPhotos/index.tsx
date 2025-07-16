@@ -16,13 +16,9 @@ type PageStateProps = {
 };
 
 interface PlayerPhotosState {
-  photos: Array<{
-    id: string;
-    url: string;
-    timestamp: string;
-    description?: string;
-  }>;
+  photos: string[];
   loading: boolean;
+  gameDetail: any;
 }
 
 interface PlayerPhotosProps extends PageStateProps {}
@@ -33,6 +29,7 @@ class PlayerPhotos extends Component<PlayerPhotosProps, PlayerPhotosState> {
   state: PlayerPhotosState = {
     photos: [],
     loading: true,
+    gameDetail: {},
   };
 
   componentDidMount() {
@@ -57,8 +54,9 @@ class PlayerPhotos extends Component<PlayerPhotosProps, PlayerPhotosState> {
       const res = await getPlayerInfo(userId);
 
       this.setState({
-        photos: res.data,
+        photos: res.data.picPathList || [],
         loading: false,
+        gameDetail: res.data,
       });
     } catch (error) {
       console.error("加载玩家图片失败：", error);
@@ -73,11 +71,10 @@ class PlayerPhotos extends Component<PlayerPhotosProps, PlayerPhotosState> {
   // 预览图片
   handlePreviewImage = (current: string) => {
     const { photos } = this.state;
-    const urls = photos.map((photo) => photo.url);
 
     Taro.previewImage({
       current,
-      urls,
+      urls: photos,
     });
   };
 
@@ -87,7 +84,7 @@ class PlayerPhotos extends Component<PlayerPhotosProps, PlayerPhotosState> {
       Taro.showLoading({ title: "下载中..." });
 
       const res = await Taro.downloadFile({
-        url: photo.url,
+        url: photo,
       });
 
       if (res.statusCode === 200) {
@@ -113,16 +110,16 @@ class PlayerPhotos extends Component<PlayerPhotosProps, PlayerPhotosState> {
 
   render() {
     const { userInfo } = this.props.store.userStore;
-    const { photos, loading } = this.state;
+    const { photos, loading, gameDetail } = this.state;
 
     return (
       <View className="player-photos-page">
         <AtMessage />
 
         <View className="header-container">
-          <View className="header-title">玩家相册</View>
+          <View className="header-title">{gameDetail?.productName}</View>
           <View className="header-subtitle">
-            {userInfo?.nickName || "未知玩家"} 的游戏精彩瞬间
+            {gameDetail?.nickName || "未知玩家"} 的游戏精彩瞬间
           </View>
         </View>
 
@@ -135,19 +132,19 @@ class PlayerPhotos extends Component<PlayerPhotosProps, PlayerPhotosState> {
             <ScrollView className="photos-scroll" scrollY>
               <View className="photos-grid">
                 {photos.map((photo) => (
-                  <View key={photo.id} className="photo-item">
+                  <View key={photo} className="photo-item">
                     <Image
                       className="photo-image"
-                      src={photo.url}
+                      src={photo}
                       mode="aspectFill"
-                      onClick={() => this.handlePreviewImage(photo.url)}
+                      onClick={() => this.handlePreviewImage(photo)}
                     />
-                    <View className="photo-info">
+                    {/* <View className="photo-info">
                       <Text className="photo-description">
                         {photo.description}
                       </Text>
                       <Text className="photo-time">{photo.timestamp}</Text>
-                    </View>
+                    </View> */}
                     <View
                       className="download-btn"
                       onClick={() => this.handleDownloadImage(photo)}

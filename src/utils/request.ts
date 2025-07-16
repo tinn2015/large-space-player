@@ -57,9 +57,10 @@ export const login = async (code: string) => {
 };
 
 // 获取玩家信息接口
+
 export const getPlayerInfo = async (userId?: string) => {
   return request({
-    url: userId ? `/control/game/user/info?qrCode=${userId}` : "/admin/api/user/info",
+    url: userId ? `/control/game/search/user/info?qrCode=${userId}` : "/admin/api/user/info",
     method: "GET",
   });
 };
