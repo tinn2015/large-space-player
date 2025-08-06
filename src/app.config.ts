@@ -10,7 +10,7 @@ export default defineAppConfig({
   window: {
     backgroundTextStyle: "light",
     navigationBarBackgroundColor: "#000000",
-    navigationBarTitleText: "大空间玩家",
+    navigationBarTitleText: "	吾知全视界",
     navigationBarTextStyle: "white",
   },
   // tabBar: {

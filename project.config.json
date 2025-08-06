@@ -1,11 +1,11 @@
 {
   "miniprogramRoot": "./dist",
-  "projectname": "myapp",
+  "projectname": "吾知全视界",
   "description": "",
-  "appid": "touristappid",
+  "appid": "wx63dae966d429fcc7",
   "setting": {
     "urlCheck": true,
-    "es6": false,
+    "es6": true,
     "enhance": false,
     "compileHotReLoad": false,
     "postcss": false,

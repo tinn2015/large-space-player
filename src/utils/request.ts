@@ -7,7 +7,17 @@ interface RequestOptions {
   header?: any;
 }
 
-const BASE_URL = "https://hub.innomix.cn";
+let BASE_URL = "https://hub.innomix.cn";
+try {
+  const accountInfo = Taro.getAccountInfoSync && Taro.getAccountInfoSync();
+  const envVersion = accountInfo?.miniProgram?.envVersion;
+  console.log("envVersion", envVersion);
+  if (envVersion === "develop" || envVersion === "trial") {
+    BASE_URL = "https://hub-pre.innomix.cn";
+  }
+} catch (e) {
+  // 非小程序环境或 getAccountInfoSync 不可用，默认用正式地址
+}
 
 export const request = async (options: RequestOptions) => {
   const { url, method = "GET", data, header = {} } = options;
@@ -60,7 +70,9 @@ export const login = async (code: string) => {
 
 export const getPlayerInfo = async (userId?: string) => {
   return request({
-    url: userId ? `/control/game/search/user/info?qrCode=${userId}` : "/admin/api/user/info",
+    url: userId
+      ? `/control/game/search/user/info?qrCode=${userId}`
+      : "/admin/api/user/info",
     method: "GET",
   });
 };
