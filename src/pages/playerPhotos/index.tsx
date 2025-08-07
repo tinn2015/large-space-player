@@ -52,6 +52,7 @@ class PlayerPhotos extends Component<PlayerPhotosProps, PlayerPhotosState> {
       }
 
       const res = await getPlayerInfo(userId);
+      console.log("获取图片信息", res);
 
       this.setState({
         photos: res.data.picPathList || [],
@@ -78,9 +79,63 @@ class PlayerPhotos extends Component<PlayerPhotosProps, PlayerPhotosState> {
     });
   };
 
+  // 检查并请求相册权限
+  checkPhotoPermission = async (): Promise<boolean> => {
+    try {
+      // 检查相册权限
+      const authRes = await Taro.getSetting();
+      const photoAuth = authRes.authSetting["scope.writePhotosAlbum"];
+
+      if (photoAuth === false) {
+        // 用户之前拒绝过权限，引导用户开启
+        const modalRes = await Taro.showModal({
+          title: "权限申请",
+          content: "需要相册权限才能保存图片，是否前往设置？",
+          confirmText: "前往设置",
+          cancelText: "取消",
+        });
+
+        if (modalRes.confirm) {
+          // 打开设置页面
+          await Taro.openSetting();
+          return true;
+        } else {
+          return false;
+        }
+      } else if (photoAuth === undefined) {
+        // 未申请过权限，直接申请
+        try {
+          await Taro.authorize({
+            scope: "scope.writePhotosAlbum",
+          });
+          return true;
+        } catch (authError) {
+          console.error("授权失败：", authError);
+          return false;
+        }
+      } else {
+        // 已有权限
+        return true;
+      }
+    } catch (error) {
+      console.error("检查权限失败：", error);
+      return false;
+    }
+  };
+
   // 下载图片到相册
   handleDownloadImage = async (photo: any) => {
     try {
+      // 检查相册权限
+      const hasPermission = await this.checkPhotoPermission();
+      if (!hasPermission) {
+        Taro.showToast({
+          title: "需要相册权限",
+          icon: "none",
+        });
+        return;
+      }
+
       Taro.showLoading({ title: "下载中..." });
 
       const res = await Taro.downloadFile({
