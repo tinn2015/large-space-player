@@ -171,11 +171,20 @@ class PlayerPhotos extends Component<PlayerPhotosProps, PlayerPhotosState> {
       <View className="player-photos-page">
         <AtMessage />
 
-        <View className="header-container">
-          <View className="header-title">{gameDetail?.productName}</View>
+        <View
+          className="header-container"
+          style={{ backgroundImage: `url(${gameDetail?.bannerPicUrl})` }}
+        >
+          {/* <View className="header-title">{gameDetail?.productName}</View>
           <View className="header-subtitle">
             {gameDetail?.nickName || "未知玩家"} 的游戏精彩瞬间
-          </View>
+          </View> */}
+          {/* <Image
+            className="photo-image"
+            src={gameDetail?.bannerPicUrl}
+            mode="aspectFill"
+            // onClick={() => this.handlePreviewImage(photo)}
+          /> */}
         </View>
 
         <View className="content-container">
