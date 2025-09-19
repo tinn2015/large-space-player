@@ -7,13 +7,15 @@ interface RequestOptions {
   header?: any;
 }
 
-let BASE_URL = "https://hub.innomix.cn";
+// let BASE_URL = "https://hub.innomix.cn";
+let BASE_URL = "https://hub.omnix.ltd";
 try {
   const accountInfo = Taro.getAccountInfoSync && Taro.getAccountInfoSync();
   const envVersion = accountInfo?.miniProgram?.envVersion;
   console.log("envVersion", envVersion);
   if (envVersion === "develop" || envVersion === "trial") {
-    BASE_URL = "https://hub-pre.innomix.cn";
+    // BASE_URL = "https://hub-pre.innomix.cn";
+    BASE_URL = "https://hub-pre.omnix.ltd";
   }
 } catch (e) {
   // 非小程序环境或 getAccountInfoSync 不可用，默认用正式地址
